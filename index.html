@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" href="./index.css" />
+    
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;800&display=swap"
+    />
+  </head>
+  <body>
+    
+    <div class="background-1-parent">
+      <img
+        class="background-1-icon"
+        alt=""
+        src="./public/background-1@2x.png"
+      />
+
+      <div class="straight-from-the-container">
+        <p class="straight-from-the">Straight from the</p>
+        <p class="straight-from-the">kitchen to your heart.</p>
+      </div>
+      <div class="vegetarian-foods-to">Vegetarian foods to your screen</div>
+      <!-- <a href="search.html">
+        <img class="frame-child" alt="" src="./public/rectangle-1@2x.png" />
+      </a> -->
+
+
+    <div class="container text-center" >
+      <input  type="text" id="customerInput" placeholder="Item to Search" autocomplete="off" />
+      <button id="search">Search</button>
+    </div>  
+
+      <div class="pasta-1-wrapper">
+        <img class="pasta-1-icon" alt="" src="./public/pasta-1@2x.png" />
+      </div>
+      <div class="todays-dish">Random Dish</div>
+      <div class="dish-01-1-parent">
+        <img class="dish-01-1" alt="" src="./public/dish-01-1@2x.png" />
+
+        <img class="dish02-1-icon" alt="" src="./public/dish02-1@2x.png" />
+
+        <img class="dish03-1-icon" alt="" src="./public/dish03-1@2x.png" />
+
+        <img class="dish04-1-icon" alt="" src="./public/dish04-1@2x.png" />
+
+        <div class="explore-more">EXPLORE MORE</div>
+      </div>
+      <img class="frame-item" alt="" src="./public/rectangle-4@2x.png" />
+
+      <div class="frame-inner"></div>
+      <div class="recipes">RECIPES</div>
+      <div class="rectangle-div"></div>
+      <div class="home">HOME</div>
+      <img
+        class="material-symbolssearch-icon"
+        alt=""
+        src="./public/materialsymbolssearch@2x.png"
+      />
+      <div id="row"></div>
+      
+
+    </div> 
+
+    
+    
+    <script>
+
+      var search = document.getElementById('search');
+      let arr = [];
+      let apiCalled = false;
+      
+      search.onclick = () => {
+        if (!apiCalled) {
+          apiCalled = true;
+          var x = document.getElementById('customerInput').value;
+          const getResult = document.getElementById('row');
+      
+          axios
+            .get(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${x}`)
+            .then((res) => {
+              const listOfMeals = res.data.meals;
+      
+              listOfMeals.forEach((meal) => {
+                const getMeal = document.createElement('div');
+                
+                getMeal.setAttribute('id', 'meal');
+                getMeal.setAttribute('class', 'meal');
+      
+                const title = document.createElement('h3');
+                const img = document.createElement('img');
+      
+                title.innerText = meal.strMeal;
+                img.setAttribute('src', meal.strMealThumb);
+
+                getMeal.append(img);
+                getMeal.append(title);
+      
+                arr.push(getMeal);
+              });
+      
+              getResult.innerHTML = '';
+      
+              arr.forEach((meal) => {
+                getResult.append(meal);
+              });
+            })
+            .catch((error) => {
+              console.error('Error fetching data:', error);
+              getResult.innerHTML = 'Error fetching data.';
+            });
+        }
+      };
+      
+      </script>
+
+
+
+      
+    <script src="index.js"></script> 
+    <script src="script.js"></script>
+  
+  </body>
+</html>
